@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Força de Senha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <form action="">
+            <label for="nmSenha" id="idLabel">Verificar força da senha</label>
+            <input type="password" name="nmSenha" id="idSenha" onkeyup="forcaSenha()">
+            <output>a</output>
+        </form>
+        
+    </main>
+
+    <script>
+        function forcaSenha(){
+            var senha = document.getElementById("idSenha").value
+            var tam = senha.length
+            console.log(senha);
+            console.log(tam);
+
+
+        }
+    </script>
+
+</body>
+</html>
