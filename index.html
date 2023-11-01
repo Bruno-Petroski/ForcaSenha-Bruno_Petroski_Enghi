@@ -10,19 +10,101 @@
     <main>
         <form action="">
             <label for="nmSenha" id="idLabel">Verificar força da senha</label>
-            <input type="password" name="nmSenha" id="idSenha" onkeyup="forcaSenha()">
-            <output>a</output>
+            
+            <div id="idArea">
+                <input type="password" name="nmSenha" id="idSenha" onkeyup="forcaSenha()">
+                <input type="button" value="Hide" onclick="mostrarSenha()" id="idButton">
+            </div>
+            <output id="idOut" class></output>
         </form>
         
     </main>
+    <div id="idBarra"></div>
 
     <script>
-        function forcaSenha(){
-            var senha = document.getElementById("idSenha").value
-            var tam = senha.length
-            console.log(senha);
-            console.log(tam);
 
+        function caixaAlta(str){
+            return /[A-Z]/.test(str)
+        }
+        function caixaBaixa(str){
+            return /[a-z]/.test(str)
+        }
+        function testeNum(str){
+            return /[0-9]/.test(str)
+        }
+        function testeEspecial(str){
+            const Especiais = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            return Especiais.test(str);
+        }
+
+        function forcaSenha(){
+            let senha = document.getElementById("idSenha").value
+            let tam = senha.length
+            
+            let cont = 0
+            
+            let barra = document.getElementById("idBarra")
+            let out = document.getElementById("idOut")
+
+            // Pontos por tamanho
+            if(tam >= 14) cont += 5
+            else if(tam >= 12) cont += 4
+            else if(tam >= 10) cont += 3
+            else if(tam > 6) cont += 2
+            else if(tam > 1) cont += 1
+            
+
+            // var nums = ["0","1","2","3","4","5","6","7","8","9"]
+            // let temp = 0
+
+            // // for(let i = 0; i < tam; i++){
+            // //     for(let j = 0; j < 10; j++){
+            // //         if(senha[i] === nums[j] && temp <1){
+            // //             temp++;
+            // //         }
+            // //     }
+            // // }
+
+            if(testeNum(senha)) cont++
+            if(caixaAlta(senha)) cont++
+            if(caixaBaixa(senha)) cont++
+            if(testeEspecial(senha)) cont += 2
+
+
+            console.log(cont + " " + tam);
+
+                // Fraco 15% width - bg-color red
+                // Moderado 30% width - bg-color yellow
+                // Forte 100% width - bg-color green
+
+            if(cont >= 9){
+                out.value = "Senha Forte"
+                out.removeAttribute('class')
+                out.classList.add("clForte")
+                barra.style.backgroundColor = "green";
+                barra.style.width = "100%"
+                
+                
+            }else if(cont > 5){
+                out.value = "Senha Moderada"
+                out.removeAttribute('class')
+                out.classList.add("clModerado")
+                barra.style.backgroundColor = "yellow"
+                barra.style.width = "30%"
+            
+
+            }else if(cont > 0){
+                out.value = "Senha Fraca"
+                out.removeAttribute('class')
+                out.classList.add("clFraco")
+                barra.style.backgroundColor = "red"
+                barra.style.width = "15%"
+
+            }else{
+                out.value = ""
+                out.removeAttribute("class")
+                barra.removeAttribute("style")
+            }
 
         }
     </script>
